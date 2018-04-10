@@ -1,0 +1,3 @@
+mv-client_src = mv-client.c res-led.c res-config.c
+CFLAGS += -DREST=coap_rest_implementation
+MODULES += apps/er-coap apps/rest-engine
