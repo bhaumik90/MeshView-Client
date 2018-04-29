@@ -22,7 +22,8 @@ typedef enum {
   DAG_VERSION_TLV,
   CHANNEL_TLV,
   PAN_ID_TLV,
-  TX_POWER_TLV
+  TX_POWER_TLV,
+  FW_VER_TLV
 } mv_eTlvType_t;
 
 typedef enum {

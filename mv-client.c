@@ -136,6 +136,11 @@ node_info_create(mv_eNwType_t infoType, mv_eNodeType_t nodeType, uint8_t *buf, u
   NETSTACK_RADIO.get_value(RADIO_PARAM_TXPOWER, &val);
   memcpy(buf+len, &val, 1); len++;
 
+  buf[len] = FW_VER_TLV; len++;
+  buf[len] = 2; len++;
+  val = (HWREGH(0x00002000)<<8 & 0xFF00) | (HWREGH(0x00002000)>>8 & 0x00FF);
+  memcpy(buf+len, &val, 2); len+=2;
+  
   *buf_len = len;
 
   exit:
@@ -145,8 +150,7 @@ node_info_create(mv_eNwType_t infoType, mv_eNodeType_t nodeType, uint8_t *buf, u
 static void
 client_chunk_handler(void *response)
 {
-  coap_packet_t *const res = (coap_packet_t *)response;
-  PRINTF("%.*s", res->payload_len, (char *)res->payload);
+  PRINTF("|%.*s\n", ((coap_packet_t *)response)->payload_len, (char *)((coap_packet_t *)response)->payload);
 }
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(mv_client, ev, data)
