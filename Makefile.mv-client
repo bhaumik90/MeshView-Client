@@ -1,3 +1,7 @@
 mv-client_src = mv-client.c res-led.c res-config.c
 CFLAGS += -DREST=coap_rest_implementation
 MODULES += apps/er-coap apps/rest-engine
+ifeq ($(OTA_IMAGE),1)
+MODULES += apps/fota-client
+CFLAGS += -DOTA_ENABLE=1 -DFOTA_ENGINE=$(subst -,_,$(TARGET))_fota
+endif

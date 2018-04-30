@@ -8,6 +8,9 @@
 #include "mv-client.h"
 #include "er-coap-engine.h"
 #include "net/rpl/rpl.h"
+#if OTA_ENABLE
+#include "fota-client.h"
+#endif
 
 #include <stdbool.h>
 /*---------------------------------------------------------------------------*/
@@ -199,8 +202,12 @@ mv_client_init(mv_eNwType_t _nwType, mv_eNodeType_t _nodeType)
   nwType = _nwType;
   nodeType = _nodeType;
   process_start(&mv_client, NULL);
+#if OTA_ENABLE
+  fota_client_init();
+#else
   coap_init_engine();
   rest_init_engine();
+#endif
   rest_activate_resource(&res_led, "led");
   rest_activate_resource(&res_config, "config");
 }
